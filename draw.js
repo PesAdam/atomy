@@ -20,6 +20,8 @@ Draw.init = function(){
     document.body.appendChild(canvas);
 
     this.all();
+
+    console.log("ahoj");
 }
 
 
@@ -54,3 +56,68 @@ Draw._lines = function(){
     this._context.stroke();
 }
 
+/* vykreslovanie buniek a atomov */
+Draw._cells = function(){
+    for (var i=0; i<Game.SIZE; i++){
+        for(var j=0; j<Game.SIZE; j++){
+            this._cells(i, j, Board[i][j]);
+        }
+    }
+}
+
+/* vykreslit jednu bunku */
+Draw._cell = function(x, y, count){
+    x *= this.CELL;
+    y *= this.CELL;
+
+    switch(count){
+        case 1:
+            this._atom(x + this.CELL/2, y + this.CELL/2);
+        break;
+
+        case 2:
+            this._atom(x + this.CELL/4, y + this.CELL/4);
+            this._atom(x + this.CELL*3/4, y + this.CELL*3/4);
+        break;
+
+        case 3:
+            this._atom(x + this.CELL/2, y + this.CELL/2);
+            this._atom(x + this.CELL/4, y + this.CELL/4);
+            this._atom(x + this.CELL*3/4, y + this.CELL*3/4);
+        break;
+
+        case 4:
+            this._atom(x + this.CELL/4, y + this.CELL/4);
+            this._atom(x + this.CELL*3/4, y + this.CELL*3/4);
+            this._atom(x + this.CELL/4, y + this.CELL*3/4);
+            this._atom(x + this.CELL*3/4, y + this.CELL/4);
+        break;
+    }
+}
+
+/* vykreslit jeden atom */
+Draw._atom = function(x ,y){
+
+    this._context.beginPath();
+
+    this._context.moveTo(x + this.ATOM, y);
+    this._context.arc(x, y, this.ATOM, 0, 2*Math.PI, false);
+
+    this._context.fillStyle = "blue";
+    this._context.fill();
+    this._context.stroke();
+}
+
+Draw.getPosition = function(cursorX, cursorY){
+    var rectangle = this._context.canvas.getBoundingClientRect();
+
+    cursorX -= rectangle.left;
+    cursorY -= rectangle.top;
+
+    if(cursorX < 0 || cursorX > rectangle.width) {return null;}
+    if(cursorY < 0 || cursorY > rectangle.height) {return null;}
+
+    var cellX = Math.floor(cursorX / this.CELL);
+    var cellY = Math.floor(cursorY / this.CELL);
+    return [cellX, cellY];
+}
