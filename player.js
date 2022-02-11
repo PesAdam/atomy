@@ -1,4 +1,5 @@
 var Player = {};
+
 Player.listen = function (){
     document.body.addEventListener("click", Player.click);
 }

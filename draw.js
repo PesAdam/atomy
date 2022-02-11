@@ -1,27 +1,26 @@
-    var Draw = {
+var Draw = {
     CELL: 60,
     LINE: 2,
     ATOM: 7,
     _context: null
 };
 /* nastavenie canvas */
-Draw.init = function(){
+Draw.init = function() {
     var canvas = document.createElement("canvas");
 
     this.CELL += this.LINE;
 
-    var size = Game.size * this.CELL + this.LINE;
+    var size = Game.SIZE * this.CELL + this.LINE;
     canvas.width = size;
     canvas.height = size;
 
     this._context = canvas.getContext("2d");
-    tihs._context.lineWidth = this.LINE;
+    this._context.lineWidth = this.LINE;
     
     document.body.appendChild(canvas);
 
     this.all();
 
-    console.log("ahoj");
 }
 
 
